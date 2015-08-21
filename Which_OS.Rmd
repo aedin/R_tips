@@ -1,0 +1,44 @@
+---
+title: "Which OS am I on?"
+author: "Aedin Culhane"
+date: "August 21, 2015"
+output: html_document
+---
+
+Quick list of R commands to check the Operating System
+
+1. version, Rversion provide the same information
+```{r OSComm1}
+version
+version$os
+identical(version, R.version)
+```
+
+2. Sys.info()
+
+```{r OSComm2}
+#Sys.info()
+Sys.info()["version"]
+```
+
+3. .Platform
+```{r OSComm3}
+.Platform$OS.type
+```
+
+4. Sys.getenv
+```{r OSComm4}
+Sys.getenv("R_PLATFORM")
+Sys.getenv(c("COMMAND_MODE", "R_PLATFORM"))
+```
+
+
+5. Script Example
+```{r OSscript}
+# Could use ifelse, switch here also.
+
+if (.Platform$OS.type=="win") myHome<-Sys.getenv("USERPROFILE") 
+if (.Platform$OS.type == "unix") myHome<-Sys.getenv("HOME")
+
+#myHome
+```
