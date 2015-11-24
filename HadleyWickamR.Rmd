@@ -1,0 +1,55 @@
+---
+title: "Notes from HadleyWickham Talk"
+author: "Aedin Culhane"
+date: "October 5, 2015"
+output: 
+  html_document:
+    keep_md: true
+
+
+---
+In this talk Hadley wickham focussed on data manipulation mostly, for input (readr, readxl), initial manipulation using tidyr, dpylr (the next gen version of pylr), visualization with ggvis and model reporting (aka convert results to data frames) using broom.
+
+
+see [tutorial](https://rpubs.com/bradleyboehmke/data_wrangling)
+
+```{r install_pkgs, eval=FALSE}
+install.packages("tidyr")
+install.packages("dplyr")
+install.packages("babynames")
+install.packages("ggvis")
+install.packages("broom")
+```
+
+```{r dplyr}
+require(babynames)
+library(dplyr)
+babynames %>% filter(year ==2013& prop>0.01)
+babynames %>% filter(name%in%c("John", "Mary"))%>% group_by(name, sex)%>% summarise(n=sum(n))
+```
+
+```{r ggvis}
+require(ggplot2)
+require(ggvis)
+data(mpg)
+data(mtcars)
+mpg%>% ggvis(~displ, ~hwy)%>% layer_points()%>% layer_smooths()
+```
+
+
+```{r broom}
+library(broom)
+lmfit <- lm(mpg ~ wt, mtcars)
+lmfit
+tidy(lmfit)
+```
+
+
+Checking if broom works with survival (coxph) 
+```{r }
+require(survival)
+data(lung)
+xfit<-coxph(Surv(time, status) ~ ph.ecog + tt(age), data=lung)
+xfit
+tidy(xfit)
+```
